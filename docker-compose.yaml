@@ -3,11 +3,15 @@ services:
 
     # Application
     app:
-        build:
-            context: .
-            dockerfile: ./docker/app.dockerfile
         container_name: app
+        build:
+          args:
+            user: selim
+            uid: 1000
+          context: .
+          dockerfile: ./docker/app.dockerfile
         working_dir: /var/www
+        restart: unless-stopped
         volumes:
             - ./:/var/www
         depends_on:
