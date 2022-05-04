@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-    
+
     # Application
     app:
         build:
@@ -12,6 +12,7 @@ services:
             - ./:/var/www
         depends_on:
             - db
+            - mongodb
     # Web Server
     web:
         container_name: web
@@ -40,8 +41,15 @@ services:
         ports:
             - "3306:3306"
         restart: unless-stopped
-
-    # Database management
+    # MongoDB
+    mongodb:
+        container_name: mongodb
+        image: mongo
+        ports:
+            - 27017:27017
+        logging:
+            driver: none
+    # Database management phpmyadmin
     pma:
         image: phpmyadmin:5.1
         container_name: pma
@@ -62,8 +70,8 @@ services:
         logging:
             driver: 'none'
         ports:
-            - 1025:1025 
-            - 8025:8025 
+            - 1025:1025
+            - 8025:8025
 
 volumes:
     dbdata:
